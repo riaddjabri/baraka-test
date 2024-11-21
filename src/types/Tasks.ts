@@ -3,12 +3,16 @@ export interface TaskFormInputs {
 }
 
 export interface TasksListProps {
-    tasks: { id: number; task: string; }[];
+    tasks: { id: number; task: string; completed: boolean; }[];
     onDelete: (id: number) => void;
+    onToggle: (id: number) => void;
 }
 
 export interface TaskItemProps {
     task: string;
     id: number;
+    completed: boolean;
     onDelete: () => void;
+    onToggle: () => void;
+
 }

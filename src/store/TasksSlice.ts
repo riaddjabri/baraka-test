@@ -3,6 +3,7 @@ import {configureStore, createSlice, PayloadAction} from '@reduxjs/toolkit';
 interface Task {
     id: number;
     task: string;
+    completed: boolean;
 }
 
 interface TasksState {
@@ -40,6 +41,7 @@ const TasksSlice = createSlice({
             const newTask: Task = {
                 id: Date.now(),
                 task: action.payload.task,
+                completed: false,
             };
             state.tasks.push(newTask);
         },
@@ -47,11 +49,18 @@ const TasksSlice = createSlice({
             state.tasks = state.tasks.filter(task => task.id !== action.payload);
             console.log(state.tasks)
         },
+        toggleTask: (state, action: PayloadAction<number>) => {
+            const task = state.tasks.find(task => task.id === action.payload);
+            if (task) {
+                task.completed = !task.completed;
+            }
+            console.log(task?.completed)
+        },
 
     },
 });
 
-export const { addTask, deleteTask } = TasksSlice.actions;
+export const { addTask, deleteTask, toggleTask } = TasksSlice.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
