@@ -43,10 +43,15 @@ const TasksSlice = createSlice({
             };
             state.tasks.push(newTask);
         },
+        deleteTask: (state, action: PayloadAction<number>) => {
+            state.tasks = state.tasks.filter(task => task.id !== action.payload);
+            console.log(state.tasks)
+        },
+
     },
 });
 
-export const { addTask } = TasksSlice.actions;
+export const { addTask, deleteTask } = TasksSlice.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
