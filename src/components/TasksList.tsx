@@ -13,7 +13,7 @@ import {
 import { useSensor, useSensors, PointerSensor, KeyboardSensor } from '@dnd-kit/core';
 import {
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination,
-    ToggleButton, ToggleButtonGroup, Paper
+    ToggleButton, ToggleButtonGroup, Paper, TableSortLabel
 } from '@mui/material';
 import SortableItem from "./TaskItem";
 
@@ -22,14 +22,24 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
     const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
 
     const filteredTasks = useMemo(() => {
-        return tasks.filter(task => {
+        const filtered = tasks.filter(task => {
             if (filter === 'active') return !task.completed;
             if (filter === 'completed') return task.completed;
             return true;
         });
-    }, [tasks, filter]);
+
+        return filtered.sort((a, b) => {
+            if (sortOrder === 'asc') {
+                return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+            } else {
+                return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
+            }
+        });
+    }, [tasks, filter, sortOrder]);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -64,6 +74,10 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
         setPage(0);
     };
 
+    const handleSortOrderChange = () => {
+        setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
+    };
+
     return (
         <Paper>
             <div className="flex flex-col justify-between mb-4">
@@ -87,7 +101,15 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
                                         <TableCell></TableCell>
                                         <TableCell>Task</TableCell>
                                         <TableCell align="center">Completed</TableCell>
-                                        <TableCell align="center">Due date</TableCell>
+                                        <TableCell align="center">
+                                            <TableSortLabel
+                                                active
+                                                direction={sortOrder}
+                                                onClick={handleSortOrderChange}
+                                            >
+                                                Due date
+                                            </TableSortLabel>
+                                            </TableCell>
                                         <TableCell align="center">Actions</TableCell>
                                     </TableRow>
                                 </TableHead>
