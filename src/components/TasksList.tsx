@@ -1,26 +1,60 @@
-import React, {useState} from 'react';
-import {TasksListProps} from "../types/Tasks";
+import React, { useState, useMemo } from 'react';
+import { TasksListProps } from '../types/Tasks';
+import { DndContext, closestCenter } from '@dnd-kit/core';
+import {
+    restrictToVerticalAxis
+} from '@dnd-kit/modifiers';
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy
+} from '@dnd-kit/sortable';
+import { useSensor, useSensors, PointerSensor, KeyboardSensor } from '@dnd-kit/core';
 import {
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination,
-    ToggleButton, ToggleButtonGroup, Paper, Switch
+    ToggleButton, ToggleButtonGroup, Paper
 } from '@mui/material';
+import SortableItem from "./TaskItem";
 
-const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle }) => {
+
+const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSortEnd }) => {
     const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
-    const filteredTasks = tasks.filter(task => {
-        if (filter === 'active') return !task.completed;
-        if (filter === 'completed') return task.completed;
-        return true;
-    });
+    const filteredTasks = useMemo(() => {
+        return tasks.filter(task => {
+            if (filter === 'active') return !task.completed;
+            if (filter === 'completed') return task.completed;
+            return true;
+        });
+    }, [tasks, filter]);
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    const handleDragEnd = (event: any) => {
+        const { active, over } = event;
+
+        if (active.id !== over.id) {
+            const oldIndex = tasks.findIndex(task => task.id === active.id);
+            const newIndex = tasks.findIndex(task => task.id === over.id);
+            const newTasks = arrayMove(tasks, oldIndex, newIndex);
+            onSortEnd(newTasks);
+        }
+    };
 
     const handleChangeFilter = (event: React.MouseEvent<HTMLElement>, newFilter: 'all' | 'active' | 'completed') => {
         if (newFilter !== null) {
             setFilter(newFilter);
         }
     };
+
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -44,31 +78,34 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle }) => {
                     <ToggleButton value="active">Active</ToggleButton>
                     <ToggleButton value="completed">Completed</ToggleButton>
                 </ToggleButtonGroup>
-
-                <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Task</TableCell>
-                                <TableCell align="center">Completed</TableCell>
-                                <TableCell align="center">Actions</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {filteredTasks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(task => (
-                                <TableRow key={task.id}>
-                                    <TableCell>{task.task}</TableCell>
-                                    <TableCell align="center">
-                                        <Switch checked={task.completed} onChange={() => onToggle(task.id)} />
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <button onClick={() => onDelete(task.id)}>Delete</button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd} modifiers={[restrictToVerticalAxis]}>
+                    <SortableContext items={tasks.map(task => task.id)} strategy={verticalListSortingStrategy}>
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Drag</TableCell>
+                                        <TableCell>Task</TableCell>
+                                        <TableCell align="center">Completed</TableCell>
+                                        <TableCell align="center">Actions</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {filteredTasks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(task => (
+                                        <SortableItem
+                                            key={task.id}
+                                            id={task.id}
+                                            task={task.task}
+                                            completed={task.completed}
+                                            onToggle={onToggle}
+                                            onDelete={onDelete}
+                                        />
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </SortableContext>
+                </DndContext>
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
@@ -79,7 +116,6 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle }) => {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </div>
-
         </Paper>
     );
 };

@@ -1,4 +1,4 @@
-import {configureStore, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Task {
     id: number;
@@ -13,11 +13,9 @@ interface TasksState {
 const loadState = (): TasksState => {
     try {
         const serializedState = localStorage.getItem('tasks');
-        if (serializedState === null) {
-            return { tasks: [] };
-        }
-        return JSON.parse(serializedState);
+        return serializedState ? JSON.parse(serializedState) : { tasks: [] };
     } catch (err) {
+        console.error('Failed to load state:', err);
         return { tasks: [] };
     }
 };
@@ -37,7 +35,7 @@ const TasksSlice = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
-        addTask: (state, action: PayloadAction<{ task:string}>) => {
+        addTask: (state, action: PayloadAction<{ task: string }>) => {
             const newTask: Task = {
                 id: Date.now(),
                 task: action.payload.task,
@@ -47,21 +45,21 @@ const TasksSlice = createSlice({
         },
         deleteTask: (state, action: PayloadAction<number>) => {
             state.tasks = state.tasks.filter(task => task.id !== action.payload);
-            console.log(state.tasks)
         },
         toggleTask: (state, action: PayloadAction<number>) => {
             const task = state.tasks.find(task => task.id === action.payload);
             if (task) {
                 task.completed = !task.completed;
             }
-            console.log(task?.completed)
+        },
+        reorderTasks: (state, action: PayloadAction<Task[]>) => {
+            state.tasks = action.payload;
         },
         reset: () => initialState,
-
     },
 });
 
-export const { addTask, deleteTask, toggleTask, reset } = TasksSlice.actions;
+export const { addTask, deleteTask, toggleTask, reset, reorderTasks } = TasksSlice.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
