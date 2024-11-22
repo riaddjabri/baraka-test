@@ -27,10 +27,11 @@ As part of our hiring process for the Senior React Frontend Engineer position, w
 4. [x] Write unit tests for key components using a testing library of your choice (e.g., Jest, React Testing Library). => Jest
 
 ## Bonus Features (Optional)
-1. [ ] Implement drag-and-drop functionality for task ordering.
+1. [x] Implement drag-and-drop functionality for task ordering.
 2. [ ] Add user authentication (you can simulate this with mock data).
-3. [ ] Allow users to set due dates for tasks and sort by due date.
-4. [ ] Integrate with a public API: Fetch and display additional data related to tasks (e.g., a random motivational quote API, or a task-related API).
+3. [x] Allow users to set due dates for tasks
+4. [ ] Allow users to sort by due date.
+5. [ ] Integrate with a public API: Fetch and display additional data related to tasks (e.g., a random motivational quote API, or a task-related API).
 
 ## MockData
 Login : admin
