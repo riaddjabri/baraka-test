@@ -1,4 +1,5 @@
-import store, {addTask, toggleTask, deleteTask, reset} from '../store/TasksSlice';
+import {addTask, toggleTask, deleteTask, reset} from '../store/TasksSlice';
+import store from '../store/store';
 import {AppDispatch, RootState} from "../types/Tasks";
 
 describe('Items Actions test', () => {

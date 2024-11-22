@@ -1,5 +1,5 @@
-import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {Task, TasksState} from "../types/Tasks";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Task, TasksState } from '../types/Tasks';
 
 const loadState = (): TasksState => {
     try {
@@ -11,22 +11,13 @@ const loadState = (): TasksState => {
     }
 };
 
-const saveState = (state: TasksState) => {
-    try {
-        const serializedState = JSON.stringify(state);
-        localStorage.setItem('tasks', serializedState);
-    } catch (error) {
-        console.error('Failed to save state:', error);
-    }
-};
-
 const initialState: TasksState = loadState();
 
-const TasksSlice = createSlice({
+const tasksSlice = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
-        addTask: (state, action: PayloadAction<{ task:string, dueDate: string}>) => {
+        addTask: (state, action: PayloadAction<{ task: string; dueDate: string }>) => {
             const newTask: Task = {
                 id: Date.now(),
                 task: action.payload.task,
@@ -51,16 +42,5 @@ const TasksSlice = createSlice({
     },
 });
 
-export const { addTask, deleteTask, toggleTask, reset, reorderTasks } = TasksSlice.actions;
-
-const store = configureStore({
-    reducer: {
-        tasks: TasksSlice.reducer,
-    },
-});
-
-store.subscribe(() => {
-    saveState(store.getState().tasks);
-});
-
-export default store;
+export const { addTask, deleteTask, toggleTask, reset, reorderTasks } = tasksSlice.actions;
+export default tasksSlice.reducer;

@@ -1,45 +1,19 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { TasksListProps } from '../types/Tasks';
 import { DndContext, closestCenter } from '@dnd-kit/core';
-import {
-    restrictToVerticalAxis
-} from '@dnd-kit/modifiers';
-import {
-    arrayMove,
-    SortableContext,
-    sortableKeyboardCoordinates,
-    verticalListSortingStrategy
-} from '@dnd-kit/sortable';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useSensor, useSensors, PointerSensor, KeyboardSensor } from '@dnd-kit/core';
-import {
-    Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination,
-    ToggleButton, ToggleButtonGroup, Paper, TableSortLabel
-} from '@mui/material';
-import SortableItem from "./TaskItem";
-
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import SortableItem from './TaskItem';
+import { useFilter } from '../hooks/useFilter';
+import { useSort } from '../hooks/useSort';
+import Filters from "./Filters";
+import Sort from './Sort';
 
 const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSortEnd }) => {
-    const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-
-
-    const filteredTasks = useMemo(() => {
-        const filtered = tasks.filter(task => {
-            if (filter === 'active') return !task.completed;
-            if (filter === 'completed') return task.completed;
-            return true;
-        });
-
-        return filtered.sort((a, b) => {
-            if (sortOrder === 'asc') {
-                return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-            } else {
-                return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
-            }
-        });
-    }, [tasks, filter, sortOrder]);
+    const { filter, setFilter, filteredTasks } = useFilter(tasks);
+    const { sortOrder, setSortOrder, sortedTasks } = useSort(filteredTasks);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -50,7 +24,6 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
 
     const handleDragEnd = (event: any) => {
         const { active, over } = event;
-
         if (active.id !== over.id) {
             const oldIndex = tasks.findIndex(task => task.id === active.id);
             const newIndex = tasks.findIndex(task => task.id === over.id);
@@ -59,39 +32,11 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
         }
     };
 
-    const handleChangeFilter = (event: React.MouseEvent<HTMLElement>, newFilter: 'all' | 'active' | 'completed') => {
-        if (newFilter !== null) {
-            setFilter(newFilter);
-        }
-    };
-
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-    const handleSortOrderChange = () => {
-        setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
-    };
-
     return (
         <Paper>
             <div className="flex flex-col justify-between mb-4">
-                <ToggleButtonGroup
-                    color="primary"
-                    value={filter}
-                    exclusive
-                    onChange={handleChangeFilter}
-                    aria-label="Tasks status filter"
-                >
-                    <ToggleButton value="all">All</ToggleButton>
-                    <ToggleButton value="active">Active</ToggleButton>
-                    <ToggleButton value="completed">Completed</ToggleButton>
-                </ToggleButtonGroup>
+                <Filters filter={filter} setFilter={setFilter} />
+                <Sort sortOrder={sortOrder} setSortOrder={setSortOrder} />
                 <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd} modifiers={[restrictToVerticalAxis]}>
                     <SortableContext items={tasks.map(task => task.id)} strategy={verticalListSortingStrategy}>
                         <TableContainer>
@@ -101,20 +46,12 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
                                         <TableCell></TableCell>
                                         <TableCell>Task</TableCell>
                                         <TableCell align="center">Completed</TableCell>
-                                        <TableCell align="center">
-                                            <TableSortLabel
-                                                active
-                                                direction={sortOrder}
-                                                onClick={handleSortOrderChange}
-                                            >
-                                                Due date
-                                            </TableSortLabel>
-                                            </TableCell>
+                                        <TableCell align="center">Due date</TableCell>
                                         <TableCell align="center">Actions</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {filteredTasks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(task => (
+                                    {sortedTasks.map(task => (
                                         <SortableItem
                                             key={task.id}
                                             id={task.id}
@@ -130,15 +67,6 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
                         </TableContainer>
                     </SortableContext>
                 </DndContext>
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={filteredTasks.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
             </div>
         </Paper>
     );

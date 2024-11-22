@@ -1,30 +1,20 @@
 import TaskForm from "../components/TaskForm";
 import TasksList from "../components/TasksList";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteTask, toggleTask, reorderTasks } from "../store/TasksSlice";
 import React from "react";
-import {RootState} from "../types/Tasks";
+import {useTasks} from "../hooks/useTasks";
+import { useSelector } from "react-redux";
+import { RootState } from "../types/Tasks";
 
 const Tasks: React.FC = () => {
-    const dispatch = useDispatch();
-    const tasks = useSelector((state: RootState) => state.tasks.tasks);
-
-    const handleDelete = (id: number) => {
-        dispatch(deleteTask(id));
-    };
-
-    const handleToggle = (id: number) => {
-        dispatch(toggleTask(id));
-    };
-
-    const handleSortEnd = (newTasks: { id: number; task: string; completed: boolean; dueDate: string }[]) => {
-        dispatch(reorderTasks(newTasks));
-    };
+    const { tasks, handleAddTask, handleDeleteTask, handleToggleTask, handleReorderTasks } = useTasks();
+    const username = useSelector((state: RootState) => state.auth.username);
 
     return (
         <div>
-            <TaskForm />
-            <TasksList tasks={tasks} onDelete={handleDelete} onToggle={handleToggle} onSortEnd={handleSortEnd} />
+            <h1>Welcome, {username}!</h1>
+
+            <TaskForm addTask={handleAddTask} />
+            <TasksList tasks={tasks} onDelete={handleDeleteTask} onToggle={handleToggleTask} onSortEnd={handleReorderTasks} />
         </div>
     );
 };

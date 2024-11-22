@@ -12,7 +12,7 @@ As part of our hiring process for the Senior React Frontend Engineer position, w
    - [x] Users should be able to add new tasks.
    - [x] Users should be able to mark tasks as complete.
    - [x] Users should be able to delete tasks.
-   - [ ] Users should be able to filter tasks by status (All, Active, Completed).
+   - [x] Users should be able to filter tasks by status (All, Active, Completed).
 
 
 ### 2. Persistent Storage:
@@ -28,13 +28,13 @@ As part of our hiring process for the Senior React Frontend Engineer position, w
 
 ## Bonus Features (Optional)
 1. [x] Implement drag-and-drop functionality for task ordering.
-2. [ ] Add user authentication (you can simulate this with mock data).
+2. [x] Add user authentication (you can simulate this with mock data).
 3. [x] Allow users to set due dates for tasks
-4. [ ] Allow users to sort by due date.
+4. [x] Allow users to sort by due date.
 5. [ ] Integrate with a public API: Fetch and display additional data related to tasks (e.g., a random motivational quote API, or a task-related API).
 
 ## MockData
-Login : admin
+Login : admin@getbaraka.com
 
 Password: admin
 
