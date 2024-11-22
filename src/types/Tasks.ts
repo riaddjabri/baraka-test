@@ -1,18 +1,33 @@
-export interface TaskFormInputs {
+import store from "../store/TasksSlice";
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export interface Task {
+    id: number;
     task: string;
+    completed: boolean;
+    dueDate: string;
 }
 
+export interface TasksState {
+    tasks: Task[];
+}
+
+export type TaskFormInputs = Partial<Omit<Task, 'id' | 'completed'>>;
+
 export interface TasksListProps {
-    tasks: { id: number; task: string; completed: boolean; }[];
+    tasks: Task[];
     onDelete: (id: number) => void;
     onToggle: (id: number) => void;
-    onSortEnd: (newTasks: { id: number; task: string; completed: boolean }[]) => void;
+    onSortEnd: (newTasks: Task[]) => void;
 }
 
 export interface TaskItemProps {
     task: string;
     id: number;
     completed: boolean;
+    dueDate: string;
     onDelete: (id: number) => void;
     onToggle: (id: number) => void;
 }

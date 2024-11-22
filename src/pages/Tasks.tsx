@@ -1,8 +1,9 @@
 import TaskForm from "../components/TaskForm";
 import TasksList from "../components/TasksList";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTask, RootState, toggleTask, reorderTasks } from "../store/TasksSlice";
+import { deleteTask, toggleTask, reorderTasks } from "../store/TasksSlice";
 import React from "react";
+import {RootState} from "../types/Tasks";
 
 const Tasks: React.FC = () => {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const Tasks: React.FC = () => {
         dispatch(toggleTask(id));
     };
 
-    const handleSortEnd = (newTasks: { id: number; task: string; completed: boolean; }[]) => {
+    const handleSortEnd = (newTasks: { id: number; task: string; completed: boolean; dueDate: string }[]) => {
         dispatch(reorderTasks(newTasks));
     };
 

@@ -1,4 +1,5 @@
-import store, {addTask, RootState, AppDispatch, toggleTask, deleteTask, reset} from '../store/TasksSlice';
+import store, {addTask, toggleTask, deleteTask, reset} from '../store/TasksSlice';
+import {AppDispatch, RootState} from "../types/Tasks";
 
 describe('Items Actions test', () => {
     beforeEach(() => {
@@ -17,8 +18,8 @@ describe('Items Actions test', () => {
 
     it('should add a task', () => {
         const dispatch: AppDispatch = store.dispatch;
-        dispatch(addTask({ task: 'Task 1' }));
-        dispatch(addTask({ task: 'Task 2' }));
+        dispatch(addTask({ task: 'Task 1', dueDate: '2024-12-31' }));
+        dispatch(addTask({ task: 'Task 2', dueDate: '2025-01-15' }));
         const state: RootState = store.getState();
         expect(state.tasks.tasks.length).toBe(2);
         expect(state.tasks.tasks[0].task).toBe('Task 1');
@@ -27,7 +28,7 @@ describe('Items Actions test', () => {
 
     it('should toggle a task correctly', () => {
         const dispatch: AppDispatch = store.dispatch;
-        dispatch(addTask({ task: 'Task 1' }));
+        dispatch(addTask({ task: 'Task 1', dueDate: '2024-12-31' }));
         let state: RootState = store.getState();
         const taskId = state.tasks.tasks[0].id;
         expect(state.tasks.tasks[0].completed).toBe(false);
@@ -39,7 +40,7 @@ describe('Items Actions test', () => {
 
     it('should delete a task correctly', () => {
         const dispatch: AppDispatch = store.dispatch;
-        dispatch(addTask({ task: 'Task 1' }));
+        dispatch(addTask({ task: 'Task 1', dueDate: '2023-12-31' }));
         const taskId = store.getState().tasks.tasks[0].id;
         dispatch(deleteTask(taskId));
         const state: RootState = store.getState();

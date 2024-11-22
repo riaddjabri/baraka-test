@@ -84,9 +84,10 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Drag</TableCell>
+                                        <TableCell></TableCell>
                                         <TableCell>Task</TableCell>
                                         <TableCell align="center">Completed</TableCell>
+                                        <TableCell align="center">Due date</TableCell>
                                         <TableCell align="center">Actions</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -97,6 +98,7 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
                                             id={task.id}
                                             task={task.task}
                                             completed={task.completed}
+                                            dueDate={task.dueDate}
                                             onToggle={onToggle}
                                             onDelete={onDelete}
                                         />

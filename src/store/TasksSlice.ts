@@ -1,14 +1,5 @@
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface Task {
-    id: number;
-    task: string;
-    completed: boolean;
-}
-
-interface TasksState {
-    tasks: Task[];
-}
+import {Task, TasksState} from "../types/Tasks";
 
 const loadState = (): TasksState => {
     try {
@@ -35,11 +26,12 @@ const TasksSlice = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
-        addTask: (state, action: PayloadAction<{ task: string }>) => {
+        addTask: (state, action: PayloadAction<{ task:string, dueDate: string}>) => {
             const newTask: Task = {
                 id: Date.now(),
                 task: action.payload.task,
                 completed: false,
+                dueDate: action.payload.dueDate,
             };
             state.tasks.push(newTask);
         },
@@ -60,8 +52,6 @@ const TasksSlice = createSlice({
 });
 
 export const { addTask, deleteTask, toggleTask, reset, reorderTasks } = TasksSlice.actions;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
 
 const store = configureStore({
     reducer: {
