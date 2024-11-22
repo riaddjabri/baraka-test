@@ -1,6 +1,10 @@
-import store, {addTask, RootState, AppDispatch, toggleTask} from '../store/TasksSlice';
+import store, {addTask, RootState, AppDispatch, toggleTask, deleteTask, reset} from '../store/TasksSlice';
 
 describe('Items Actions test', () => {
+    beforeEach(() => {
+        // Reset the store before each test
+        store.dispatch(reset());
+    });
 
     it('should have the correct initial state', () => {
         const state: RootState = store.getState();
@@ -32,4 +36,14 @@ describe('Items Actions test', () => {
         state = store.getState();
         expect(state.tasks.tasks[0].completed).toBe(true);
     });
+
+    it('should delete a task correctly', () => {
+        const dispatch: AppDispatch = store.dispatch;
+        dispatch(addTask({ task: 'Task 1' }));
+        const taskId = store.getState().tasks.tasks[0].id;
+        dispatch(deleteTask(taskId));
+        const state: RootState = store.getState();
+        expect(state.tasks.tasks.length).toBe(0);
+    });
+
 });

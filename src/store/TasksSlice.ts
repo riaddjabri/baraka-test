@@ -56,11 +56,12 @@ const TasksSlice = createSlice({
             }
             console.log(task?.completed)
         },
+        reset: () => initialState,
 
     },
 });
 
-export const { addTask, deleteTask, toggleTask } = TasksSlice.actions;
+export const { addTask, deleteTask, toggleTask, reset } = TasksSlice.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
