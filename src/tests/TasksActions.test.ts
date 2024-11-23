@@ -14,6 +14,11 @@ describe('Items Actions test', () => {
             tasks: {
                 tasks: [],
             },
+            auth: {
+                isAuthenticated: false,
+                email: null,
+                username: null,
+            },
         });
     });
 

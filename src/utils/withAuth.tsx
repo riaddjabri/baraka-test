@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const withAuth = (WrappedComponent: React.FC) => {
-    const AuthComponent: React.FC = (props: any) => {
+    const AuthComponent: React.FC<React.ComponentProps<typeof WrappedComponent>> = (props) => {
         const { isAuthenticated } = useAuth();
 
         if (isAuthenticated) {

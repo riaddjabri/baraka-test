@@ -18,7 +18,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ addTask }) => {
         <div className='mt-4'>
             <h2 className='font-bold'>Add a new task:</h2>
             <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col md:flex-row'>
-                <div className="mb-2 flex flex-col w-full">
+                <div className="flex flex-col w-full">
                     <input
                         type="text"
                         {...register('task', {required: 'Task is required'})}
@@ -27,7 +27,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ addTask }) => {
                     />
                     {errors.task && <span className="text-red-500">{errors.task.message}</span>}
                 </div>
-                <div className="mb-2  flex flex-col">
+                <div className="flex flex-col">
                     <input
                         type="date"
                         {...register('dueDate', {required: 'Due date is required'})}

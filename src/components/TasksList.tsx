@@ -1,6 +1,6 @@
 import React from 'react';
 import { TasksListProps } from '../types/Tasks';
-import { DndContext, closestCenter, TouchSensor, MouseSensor } from '@dnd-kit/core';
+import {DndContext, closestCenter, TouchSensor, MouseSensor, DragEndEvent} from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useSensor, useSensors, PointerSensor, KeyboardSensor } from '@dnd-kit/core';
@@ -37,10 +37,10 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
         })
     );
 
-    const handleDragEnd = (event: any) => {
+    const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
 
-        if (active.id !== over.id) {
+        if (over && active.id !== over.id) {
             const oldIndex = tasks.findIndex(task => task.id === active.id);
             const newIndex = tasks.findIndex(task => task.id === over.id);
             const newTasks = arrayMove(tasks, oldIndex, newIndex);
