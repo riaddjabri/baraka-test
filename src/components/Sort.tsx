@@ -21,11 +21,11 @@ const Sort: React.FC<SortProps> = ({ sortOrder, setSortOrder }) => {
                 value={sortOrder}
                 exclusive
                 onChange={handleSortOrderChange}
-                aria-label="Sort order"
+                aria-label="Sort order by date"
             >
-                <ToggleButton value="asc">Asc</ToggleButton>
-                <ToggleButton value="desc">Desc</ToggleButton>
-                <ToggleButton value="none">None</ToggleButton>
+                <ToggleButton value="asc" aria-label="Asc order">Asc</ToggleButton>
+                <ToggleButton value="desc" aria-label="Desc order">Desc</ToggleButton>
+                <ToggleButton value="none" aria-label="Sort by creation date">None</ToggleButton>
             </ToggleButtonGroup>
         </div>
     );

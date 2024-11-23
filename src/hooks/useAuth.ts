@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 
 export const useAuth = () => {
     const dispatch = useDispatch();
-    const { isAuthenticated, email } = useSelector((state: RootState) => state.auth);
+    const { isAuthenticated, email, isLoading } = useSelector((state: RootState) => state.auth);
 
     const handleLogin = (token: string, email: string) => {
         dispatch(login({ token, email }));
@@ -17,5 +17,5 @@ export const useAuth = () => {
         Cookies.remove('token');
     };
 
-    return { isAuthenticated, email, handleLogin, handleLogout };
+    return { isAuthenticated, email, isLoading, handleLogin, handleLogout };
 };

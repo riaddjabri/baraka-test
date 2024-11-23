@@ -3,7 +3,6 @@ import {useSortable} from "@dnd-kit/sortable";
 import {Switch, TableCell, TableRow} from "@mui/material";
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import DeleteIcon from '@mui/icons-material/Delete';
-import useIsMobile from "../hooks/useIsMobile";
 
 const SortableItem: React.FC<TaskItemProps> = ({ id, task, completed, dueDate, onToggle, onDelete }) => {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
@@ -13,18 +12,22 @@ const SortableItem: React.FC<TaskItemProps> = ({ id, task, completed, dueDate, o
     };
     return (
         <TableRow ref={setNodeRef} style={style} data-testid={`task-item-${id}`}>
-            {!useIsMobile() &&
+
                 <TableCell {...attributes} {...listeners} className='w-10 hidden md:block'>
-                    <DragHandleIcon/>
+                    <DragHandleIcon aria-label="Drag handle"/>
                 </TableCell>
-            }
-            <TableCell>{task}</TableCell>
+
+            <TableCell aria-label={task}>{task}</TableCell>
             <TableCell align="center">
-                <Switch checked={completed} onChange={() => onToggle(id)} />
+                <Switch
+                    checked={completed}
+                    onChange={() => onToggle(id)}
+                    inputProps={{ 'aria-label': `Toggle completion for task ${task}` }}
+                />
             </TableCell>
-            <TableCell align="center">{dueDate}</TableCell>
+            <TableCell align="center" aria-label={`Due date is ${dueDate}`}>{dueDate}</TableCell>
             <TableCell align="center">
-                <button onClick={() => onDelete(id)}>
+                <button onClick={() => onDelete(id)} aria-label={`Delete task ${task}`}>
                     <DeleteIcon />
                 </button>
             </TableCell>

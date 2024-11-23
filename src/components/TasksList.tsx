@@ -3,33 +3,30 @@ import { TasksListProps } from '../types/Tasks';
 import {DndContext, closestCenter, TouchSensor, MouseSensor, DragEndEvent} from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { useSensor, useSensors, PointerSensor, KeyboardSensor } from '@dnd-kit/core';
+import { useSensor, useSensors, KeyboardSensor } from '@dnd-kit/core';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import SortableItem from './TaskItem';
 import { useFilter } from '../hooks/useFilter';
 import { useSort } from '../hooks/useSort';
 import Filters from "./Filters";
 import Sort from './Sort';
-import useIsMobile from "../hooks/useIsMobile";
 
 const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSortEnd }) => {
     const { filter, setFilter, filteredTasks } = useFilter(tasks);
     const { sortOrder, setSortOrder, sortedTasks } = useSort(filteredTasks);
 
     const sensors = useSensors(
-        useSensor(PointerSensor),
         useSensor(TouchSensor, {
             activationConstraint: {
-                delay: 250,
-                tolerance: 5,
-                distance:10,
+                delay: 0,
+                tolerance: 0,
             },
         }),
         useSensor(MouseSensor, {
             activationConstraint: {
-                delay: 250,
-                tolerance: 5,
-                distance:10,
+                distance: 5,
+                delay: 50,
+                tolerance: 10,
             },
         }),
         useSensor(KeyboardSensor, {
@@ -61,7 +58,7 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        {!useIsMobile() && <TableCell></TableCell>}
+                                        <TableCell></TableCell>
                                         <TableCell>Task</TableCell>
                                         <TableCell align="center">Completed</TableCell>
                                         <TableCell align="center">Due date</TableCell>

@@ -11,18 +11,18 @@ const Header = () => {
     const { handleLogout } = useAuth();
 
     return (
-        <header className='bg-black text-white p-6 flex flex-row justify-between w-full items-center fixed top-0 left-0 z-10'>
+        <header className='bg-black text-white p-6 flex flex-row justify-between w-full items-center fixed top-0 left-0 z-10' aria-label='Header'>
             <div className='flex justify-center items-center gap-4'>
-                <Link to="/">
+                <Link to="/" aria-label='Home'>
                     <Logo/>
                 </Link>
                 {isAuthenticated && <Link to="/tasks">Tasks</Link>}
             </div>
             <div className='rounded-full bg-white text-black px-4 py-2'>
                 {isAuthenticated ? (
-                    <button onClick={handleLogout}>Logout</button>
+                    <button onClick={handleLogout} aria-label='Logout'>Logout</button>
                 ) : (
-                    <Link to="/login">Sign In</Link>
+                    <Link to="/login" aria-label='Sign In'>Sign In</Link>
                 )}
             </div>
         </header>

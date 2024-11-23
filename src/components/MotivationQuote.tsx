@@ -13,16 +13,16 @@ const MotivationQuote: React.FC<MotivationQuoteProps> = ({ color = 'black' }) =>
     }, [fetchNewQuote]);
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <p role="status" aria-live="polite">Loading...</p>;
     }
 
     if (error) {
-        return <p>Error: {error}</p>;
+        return <p role="alert">Error: {error}</p>;
     }
 
     return (
-        <div className={`text-center m-5  text-${color}`}>
-            <blockquote className={`italic text-2xl`}>
+        <div className={`text-center m-5 text-${color}`} role="region" aria-labelledby="quote-text">
+            <blockquote id="quote-text" className={`italic text-2xl`}>
                 "{quote?.quote}"
             </blockquote>
             <p style={{fontWeight: 'bold', marginTop: '10px'}}>- {quote?.author}</p>
