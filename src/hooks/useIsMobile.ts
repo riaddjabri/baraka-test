@@ -10,7 +10,7 @@ const useIsMobile = () => {
         };
 
         checkIsMobile();
-        window.addEventListener('resize', checkIsMobile); // Optional: Update on window resize
+        window.addEventListener('resize', checkIsMobile);
 
         return () => {
             window.removeEventListener('resize', checkIsMobile);

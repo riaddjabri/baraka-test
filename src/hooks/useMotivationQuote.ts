@@ -18,15 +18,12 @@ const useMotivationQuote = (): UseMotivationQuoteResult => {
     const [loading, setLoading] = useState<boolean>(true);
 
     const fetchNewQuote = useCallback(async () => {
-        setLoading(true); // Ensure loading is set for new fetch
+        setLoading(true);
         try {
             const response = await fetch('https://quotes-api-self.vercel.app/quote');
-            if (!response.ok) {
-                throw new Error('Failed to fetch quote');
-            }
             const data = await response.json();
             setQuote(data);
-            setError(null); // Reset error on success
+            setError(null);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An unknown error occurred');
         } finally {

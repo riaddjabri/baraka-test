@@ -1,6 +1,6 @@
 # Project URL
 
-https://baraka-test-6v8n5zwlc-riaddjabris-projects.vercel.app/
+https://baraka-test-riad.vercel.app/
 
 # Overview
 
@@ -35,11 +35,13 @@ As part of our hiring process for the Senior React Frontend Engineer position, w
 4. [x] Allow users to sort by due date.
 5. [x] Integrate with a public API: Fetch and display additional data related to tasks (e.g., a random motivational quote API, or a task-related API).
 
-## MockData
+## MockData - user credentials
 Login : admin@getbaraka.com
 
 Password: admin
 
+When you log in, you will be redirected to the tasks page where you can see the tasks.
+A cookie will be set to keep you logged in.
 
 ## Running the project
 
@@ -81,7 +83,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 # Project Improvements
 
-1. Migrate the project to nextjs and store the tasks and users inside a database.
+1. Migrate the project to next.js and store the tasks and users inside a database.
 2. Add oAuth2 authentication to the project.
 3. Put jwt token in the local storage.
 4. Add a token refresher
