@@ -9,7 +9,7 @@ const SortableItem: React.FC<TaskItemProps> = ({ id, task, completed, dueDate, o
         transition: transition || undefined,
     };
     return (
-        <TableRow ref={setNodeRef} style={style}>
+        <TableRow ref={setNodeRef} style={style} data-testid={`task-item-${id}`}>
             <TableCell {...attributes} {...listeners}>
                 Drag
             </TableCell>

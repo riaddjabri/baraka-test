@@ -24,6 +24,8 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
 
     const handleDragEnd = (event: any) => {
         const { active, over } = event;
+        console.log('Drag End Event:', active, over); // <-- Ajoutez ce log
+
         if (active.id !== over.id) {
             const oldIndex = tasks.findIndex(task => task.id === active.id);
             const newIndex = tasks.findIndex(task => task.id === over.id);
