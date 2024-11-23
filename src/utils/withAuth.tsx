@@ -9,7 +9,7 @@ const withAuth = (WrappedComponent: React.FC) => {
         if (isAuthenticated) {
             return <WrappedComponent {...props} />;
         }
-        return <Navigate to="/" />;
+        return <Navigate to="/login" />;
     };
 
     return AuthComponent;

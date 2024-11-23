@@ -15,26 +15,29 @@ const TaskForm: React.FC<TaskFormProps> = ({ addTask }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className='flex '>
-            <div className="mb-2">
-                <input
-                    type="text"
-                    {...register('task', { required: 'Task is required' })}
-                    className="border p-2 flex-grow"
-                    placeholder="Add a new task"
-                />
-                {errors.task && <span className="text-red-500">{errors.task.message}</span>}
-            </div>
-            <div className="mb-2">
-                <input
-                    type="date"
-                    {...register('dueDate', { required: 'Due date is required' })}
-                    className="border p-2 ml-2"
-                />
-                {errors.dueDate && <span className="text-red-500">{errors.dueDate.message}</span>}
-            </div>
-            <button type="submit" className="bg-blue-500 text-white p-2 ml-2">Add</button>
-        </form>
+        <div className='mt-4'>
+            <h2 className='font-bold'>Add a new task:</h2>
+            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col md:flex-row'>
+                <div className="mb-2 flex flex-col w-full">
+                    <input
+                        type="text"
+                        {...register('task', {required: 'Task is required'})}
+                        className="border p-2 flex-grow"
+                        placeholder="Add a new task"
+                    />
+                    {errors.task && <span className="text-red-500">{errors.task.message}</span>}
+                </div>
+                <div className="mb-2  flex flex-col">
+                    <input
+                        type="date"
+                        {...register('dueDate', {required: 'Due date is required'})}
+                        className="border p-2 ml-2"
+                    />
+                    {errors.dueDate && <span className="text-red-500">{errors.dueDate.message}</span>}
+                </div>
+                <button type="submit" className="bg-blue-500 text-white p-2 ml-2">Add</button>
+            </form>
+        </div>
     );
 };
 

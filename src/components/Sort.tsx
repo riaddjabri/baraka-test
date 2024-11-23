@@ -14,17 +14,20 @@ const Sort: React.FC<SortProps> = ({ sortOrder, setSortOrder }) => {
     };
 
     return (
-        <ToggleButtonGroup
-            color="primary"
-            value={sortOrder}
-            exclusive
-            onChange={handleSortOrderChange}
-            aria-label="Sort order"
-        >
-            <ToggleButton value="asc">Asc</ToggleButton>
-            <ToggleButton value="desc">Desc</ToggleButton>
-            <ToggleButton value="none">None</ToggleButton>
-        </ToggleButtonGroup>
+        <div className='flex gap-2 flex-col'>
+            <h2 className='font-bold'>Sort by date:</h2>
+            <ToggleButtonGroup
+                color="primary"
+                value={sortOrder}
+                exclusive
+                onChange={handleSortOrderChange}
+                aria-label="Sort order"
+            >
+                <ToggleButton value="asc">Asc</ToggleButton>
+                <ToggleButton value="desc">Desc</ToggleButton>
+                <ToggleButton value="none">None</ToggleButton>
+            </ToggleButtonGroup>
+        </div>
     );
 };
 

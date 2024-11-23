@@ -1,6 +1,8 @@
 import {TaskItemProps} from "../types/Tasks";
 import {useSortable} from "@dnd-kit/sortable";
 import {Switch, TableCell, TableRow} from "@mui/material";
+import DragHandleIcon from '@mui/icons-material/DragHandle';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const SortableItem: React.FC<TaskItemProps> = ({ id, task, completed, dueDate, onToggle, onDelete }) => {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
@@ -10,8 +12,8 @@ const SortableItem: React.FC<TaskItemProps> = ({ id, task, completed, dueDate, o
     };
     return (
         <TableRow ref={setNodeRef} style={style} data-testid={`task-item-${id}`}>
-            <TableCell {...attributes} {...listeners}>
-                Drag
+            <TableCell {...attributes} {...listeners} className='w-10'>
+                <DragHandleIcon/>
             </TableCell>
             <TableCell>{task}</TableCell>
             <TableCell align="center">
@@ -19,7 +21,9 @@ const SortableItem: React.FC<TaskItemProps> = ({ id, task, completed, dueDate, o
             </TableCell>
             <TableCell align="center">{dueDate}</TableCell>
             <TableCell align="center">
-                <button onClick={() => onDelete(id)}>Delete</button>
+                <button onClick={() => onDelete(id)}>
+                    <DeleteIcon />
+                </button>
             </TableCell>
         </TableRow>
     );

@@ -14,17 +14,20 @@ const Filters: React.FC<FiltersProps> = ({ filter, setFilter }) => {
     };
 
     return (
-        <ToggleButtonGroup
-            color="primary"
-            value={filter}
-            exclusive
-            onChange={handleChangeFilter}
-            aria-label="Tasks status filter"
-        >
-            <ToggleButton value="all">All</ToggleButton>
-            <ToggleButton value="active">Active</ToggleButton>
-            <ToggleButton value="completed">Completed</ToggleButton>
-        </ToggleButtonGroup>
+        <div className='flex flex-col gap-2'>
+            <h2 className='font-bold'>Filter by status:</h2>
+            <ToggleButtonGroup
+                color="primary"
+                value={filter}
+                exclusive
+                onChange={handleChangeFilter}
+                aria-label="Tasks status filter"
+            >
+                <ToggleButton value="all">All</ToggleButton>
+                <ToggleButton value="active">Active</ToggleButton>
+                <ToggleButton value="completed">Completed</ToggleButton>
+            </ToggleButtonGroup>
+        </div>
     );
 };
 
