@@ -18,7 +18,8 @@ describe('Items Actions test', () => {
                 isAuthenticated: false,
                 email: null,
                 username: null,
-            },
+                isLoading: true,
+    },
         });
     });
 
