@@ -25,18 +25,25 @@ const TaskForm: React.FC<TaskFormProps> = ({ addTask }) => {
                         className="border p-2 flex-grow"
                         placeholder="Add a new task"
                     />
-                    {errors.task && <span className="text-red-500">{errors.task.message}</span>}
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col relative">
                     <input
                         type="date"
-                        {...register('dueDate', {required: 'Due date is required'})}
+                        {...register('dueDate', {
+                            required: 'Due date is required',
+                            validate: value => new Date(value || '') > new Date() || 'Due date must be in the future'
+                        })}
                         className="border p-2 ml-2"
                     />
-                    {errors.dueDate && <span className="text-red-500">{errors.dueDate.message}</span>}
                 </div>
                 <button type="submit" className="bg-blue-500 text-white p-2 ml-2">Add</button>
             </form>
+            {errors &&
+                <div className='flex flex-col gap-1 w-max bg-red-300 border-2 border-red-500 p-4 mt-4 font-bold'>
+                    {errors.task && <span className="text-red-500">{errors.task.message}</span>}
+                    {errors.dueDate && <span className="text-red-500">{errors.dueDate.message}</span>}
+                </div>
+            }
         </div>
     );
 };
