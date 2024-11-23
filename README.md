@@ -23,7 +23,7 @@ As part of our hiring process for the Senior React Frontend Engineer position, w
 
 1. [x] Framework: Use React (version 16.8 or higher).
 2. [x] State Management: You can use React's built-in state management or any state management library you prefer => Redux
-3. [ ] Styling: Use Tailwind CSS for styling. Ensure the design is clean and user-friendly.
+3. [x] Styling: Use Tailwind CSS for styling. Ensure the design is clean and user-friendly.
 4. [x] Write unit tests for key components using a testing library of your choice (e.g., Jest, React Testing Library). => Jest
 
 ## Bonus Features (Optional)
@@ -31,7 +31,7 @@ As part of our hiring process for the Senior React Frontend Engineer position, w
 2. [x] Add user authentication (you can simulate this with mock data).
 3. [x] Allow users to set due dates for tasks
 4. [x] Allow users to sort by due date.
-5. [ ] Integrate with a public API: Fetch and display additional data related to tasks (e.g., a random motivational quote API, or a task-related API).
+5. [x] Integrate with a public API: Fetch and display additional data related to tasks (e.g., a random motivational quote API, or a task-related API).
 
 ## MockData
 Login : admin@getbaraka.com
@@ -75,3 +75,15 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+
+# Project Improvements
+
+1. Migrate the project to nextjs and store the tasks and users inside a database.
+2. Add oAuth2 authentication to the project.
+3. Put jwt token in the local storage.
+4. Add a token refresher
+5. Create APIs for the project and put the jwt token in the request header.
+6. Add edit mode to the tasks.
+
+```
