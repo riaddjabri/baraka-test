@@ -10,6 +10,7 @@ import { useFilter } from '../hooks/useFilter';
 import { useSort } from '../hooks/useSort';
 import Filters from "./Filters";
 import Sort from './Sort';
+import useIsMobile from "../hooks/useIsMobile";
 
 const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSortEnd }) => {
     const { filter, setFilter, filteredTasks } = useFilter(tasks);
@@ -60,7 +61,7 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, onDelete, onToggle, onSort
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell></TableCell>
+                                        {!useIsMobile() && <TableCell></TableCell>}
                                         <TableCell>Task</TableCell>
                                         <TableCell align="center">Completed</TableCell>
                                         <TableCell align="center">Due date</TableCell>

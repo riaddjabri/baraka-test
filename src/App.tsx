@@ -11,7 +11,6 @@ import withAuth from "./utils/withAuth";
 
 const ProtectedTasks = withAuth(Tasks);
 
-
 function App() {
     const dispatch = useDispatch();
 
